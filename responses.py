@@ -23,11 +23,17 @@ class Hello(Resource):
 class user(Resource):
 
     def get(self, username,password,age):
-        d=sqlite3.connect('sample.db')
+        d=sqlite3.connect('tycon.db')
         cursor=d.cursor()
-        cursor.execute('')
-
-        return jsonify({'username': username,'password':password,'age':age})
+        try:
+            cursor.execute("""CREATE TABLE emp (fname VARCHAR(50),lname VARCHAR(50),age INT(6))""")
+            print("Table created")
+            return jsonify({'message':'Table Created'})
+        except:
+            # cursor.execute(f"""INSERT INTO emp VALUES ("{username}","{password}", "{age}");""")
+            cursor.execute(f"""INSERT INTO emp VALUES ("ishan","srivastava","20");""")
+            print("Values inserted")
+            return jsonify({'message':"values inserted"},{'username': username,'password':password,'age':age})
 
 
 # adding the defined resources along with their corresponding urls
